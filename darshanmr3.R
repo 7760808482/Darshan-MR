@@ -1,10 +1,9 @@
-my_vector <- c(1, 2, 3, 4, 5) 
-element_from_vector <- my_vector[3] 
-print(paste("Element from vector:", element_from_vector)) 
-my_matrix <- matrix(1:9, nrow = 3) 
-element_from_matrix <- my_matrix[2, 3] 
-print(paste("Element from matrix:", element_from_matrix)) 
-my_array <- array(1:27, dim = c(3, 3, 3)) 
-element_from_array <- my_array[2, 2, 3] 
-print(paste("Element from array:", element_from_array))
-
+cells=c(1,3,5,7,8,9,11,12,14)
+rnameS=c("Row1","row2","row3")
+cnameS=c("col1","col2","col3")
+m2=matrix(cells,nrow=3,ncol=3,byrow=TRUE,dimnames=list(rnameS,cnameS))
+print("3*3 matrix with label,filled by rows:")
+print(m2)
+print("3*3 matrix with label,filled by columns:")
+m3=matrix(cells,nrow=3,ncol=3,byrow=FALSE,dimnames=list(rnameS,cnameS))
+print(m3)

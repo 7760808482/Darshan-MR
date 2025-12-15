@@ -1,0 +1,9 @@
+employee<-data.frame(
+  id=1:20,
+  name=c("Arun","Bala","chita","deepak","Esha","Faran","Geetha",
+         "HAri","Indu","Jay","Kiran","Latha","Manoj","Nisha",
+         "Om","Pooja","Qadir","Sneha","Tejas"),
+  salary=c(18000,22000,25000,19000,30000,
+           21000,17000,26000,23000,19000,
+           31000,22000,18000,26000,29000),
+  start_date

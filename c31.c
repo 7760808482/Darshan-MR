@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <conio.h>
 struct student
 {
 int roll_no;
@@ -47,5 +46,4 @@ found=1;
 }
 if(found==0)
 printf("Given student name not found\n");
-getch();
 }

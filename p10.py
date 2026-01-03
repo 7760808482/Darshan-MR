@@ -29,3 +29,7 @@ print(dieshes)
 print(dieshes.keys())
 #using values() method to print all the dishes in the dictiory
 print(dieshes.values())
+
+
+
+

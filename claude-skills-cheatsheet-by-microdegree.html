@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Skills Cheat Sheet by Microdegree</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: #e0ddd6;
+    --text: #1a1a18;
+    --muted: #6b6a65;
+    --hint: #9e9d97;
+    --accent: #3b6cf6;
+    --accent-bg: #eef2ff;
+    --accent-text: #2a4db0;
+    --green-bg: #eaf6ed;
+    --green-text: #1e6b35;
+    --amber-bg: #fef4e0;
+    --amber-text: #8a5a00;
+    --red-bg: #fdeeed;
+    --red-text: #991f1f;
+    --radius: 8px;
+    --radius-lg: 14px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.5px; }
+  .header-left p { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .header-badge {
+    font-size: 12px;
+    background: var(--accent-bg);
+    color: var(--accent-text);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-weight: 500;
+  }
+
+  /* Section labels */
+  .sec-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--hint);
+    margin: 2rem 0 0.75rem;
+  }
+
+  /* Grid */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+  }
+  .card-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--hint);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-title svg { width: 14px; height: 14px; }
+
+  /* Rows */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .row:last-child { border-bottom: none; padding-bottom: 0; }
+  .rk { color: var(--muted); flex-shrink: 0; }
+  .rv { font-weight: 500; text-align: right; }
+
+  /* Pills */
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .p-blue { background: var(--accent-bg); color: var(--accent-text); }
+  .p-green { background: var(--green-bg); color: var(--green-text); }
+  .p-amber { background: var(--amber-bg); color: var(--amber-text); }
+  .p-red { background: var(--red-bg); color: var(--red-text); }
+
+  /* Topic selector */
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .topic-btn {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.15s;
+    text-align: left;
+  }
+  .topic-btn:hover { background: var(--accent-bg); color: var(--accent); border-color: #c0ccf7; }
+  .topic-btn.selected {
+    background: var(--accent-bg);
+    color: var(--accent-text);
+    border-color: var(--accent);
+  }
+  .topic-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+  /* Prompt output */
+  .prompt-label { font-size: 11px; color: var(--hint); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .prompt-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text);
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    white-space: pre-wrap;
+    min-height: 100px;
+  }
+  .prompt-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .btn {
+    cursor: pointer;
+    font-size: 13px;
+    padding: 7px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.15s;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: #2a4db0; border-color: #2a4db0; }
+  .btn svg { width: 14px; height: 14px; }
+  .btn-success { background: var(--green-bg); color: var(--green-text); border-color: #a3d9b1; }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 9px; }
+  .step { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; }
+  .snum {
+    min-width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent-bg);
+    color: var(--accent-text);
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .stxt { color: var(--muted); line-height: 1.5; }
+  .stxt strong { color: var(--text); font-weight: 600; }
+
+  /* Template */
+  .template-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+  .highlight { color: var(--accent); font-weight: 600; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--text);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.25s;
+    pointer-events: none;
+    z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Footer */
+  .footer { margin-top: 3rem; text-align: center; font-size: 12px; color: var(--hint); }
+
+  @media (max-width: 600px) {
+    .header { flex-direction: column; align-items: flex-start; }
+    .topic-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--accent);margin-bottom:5px;">Microdegree</div>
+      <h1>Claude Skills Cheat Sheet</h1>
+      <p>Tech topics guide for working professionals</p>
+    </div>
+    <span class="header-badge">by Microdegree</span>
+  </div>
+
+  <!-- SECTION 1: What is a skill -->
+  <div class="sec-label">What is a Claude skill?</div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a9 9 0 1 0 0 18A9 9 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+        Definition
+      </div>
+      <div class="row"><span class="rk">Skill</span><span class="rv">A reusable prompt system</span></div>
+      <div class="row"><span class="rk">Goal</span><span class="rv">Consistent expert output</span></div>
+      <div class="row"><span class="rk">Lives in</span><span class="rv">System prompt / project</span></div>
+      <div class="row"><span class="rk">Scope</span><span class="rv">One topic or task type</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Skill anatomy
+      </div>
+      <div class="row"><span class="rk">1. Role</span><span class="rv">Who Claude is</span></div>
+      <div class="row"><span class="rk">2. Expertise</span><span class="rv">Knowledge domain</span></div>
+      <div class="row"><span class="rk">3. Audience</span><span class="rv">Who reads the output</span></div>
+      <div class="row"><span class="rk">4. Format</span><span class="rv">Structure of response</span></div>
+      <div class="row"><span class="rk">5. Guardrails</span><span class="rv">What to avoid</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Skill quality levels
+      </div>
+      <div class="row"><span class="rk">Basic</span><span class="rv"><span class="pill p-amber">Role only</span></span></div>
+      <div class="row"><span class="rk">Good</span><span class="rv"><span class="pill p-blue">Role + format</span></span></div>
+      <div class="row"><span class="rk">Great</span><span class="rv"><span class="pill p-green">Full anatomy</span></span></div>
+      <div class="row"><span class="rk">Pro</span><span class="rv"><span class="pill p-green">+ examples + CoT</span></span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Topic picker -->
+  <div class="sec-label">Pick a tech topic — generate a ready-to-use skill prompt</div>
+  <div class="card" style="grid-column:1/-1">
+    <div class="topic-grid" id="topics">
+
+      <button class="topic-btn" onclick="pick(this,'Cybersecurity','cybersecurity analyst','explain threats, CVEs, attack vectors, and defenses','security professionals and developers','threat summaries with severity ratings, mitigation steps, CVE references','unverified exploit code or fear-mongering claims')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Cybersecurity
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'Cloud / DevOps','AWS and cloud architect','cloud architecture, IaC, cost optimization, CI/CD, and scaling strategies','developers and DevOps engineers','architecture options in plain text, bullet trade-offs, cost tips, IaC snippets','vendor lock-in bias — always mention multi-cloud options')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+        Cloud / DevOps
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'Machine Learning','ML engineer','model training, fine-tuning, evals, MLOps pipelines, and LLM architecture','data scientists and ML engineers','Python code snippets, step-by-step explanations, metric comparisons','hype or overclaiming — always acknowledge dataset and compute limits')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h1v1H9zM14 9h1v1h-1zM9 14h1v1H9zM14 14h1v1h-1z"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2"/></svg>
+        Machine learning
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'Web Development','senior frontend developer','React, TypeScript, CSS, web performance, and accessibility','mid-level developers and engineers','clean code examples with explanations, trade-off analysis, links to best practices','outdated patterns like class components, var declarations, or deprecated APIs')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Web dev
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'Data Engineering','senior data engineer','SQL, dbt, Spark, Kafka, data modeling, and pipeline architecture','analysts and data engineers','SQL examples, schema diagrams as text, pipeline diagrams, performance tips','slow or unscalable patterns — always consider query cost and data volume')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+        Data engineering
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'API Design','API design expert','REST, GraphQL, gRPC, OpenAPI, versioning, and auth patterns','backend developers and architects','endpoint examples, HTTP status codes, comparison tables, OpenAPI snippets','over-engineering — always consider YAGNI and the simplest working contract')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        API design
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'Mobile Development','mobile developer','iOS, Android, React Native, Flutter, mobile UX, and App Store optimization','mobile engineers and indie developers','platform-specific code snippets, trade-offs between native and cross-platform, UX tips','outdated SDKs — always flag deprecations and target API levels')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        Mobile dev
+      </button>
+
+      <button class="topic-btn" onclick="pick(this,'Blockchain / Web3','blockchain developer','smart contracts, Solidity, Web3.js, DeFi protocols, and wallet integration','developers new to blockchain','annotated Solidity code, gas cost tips, security warnings, audit checklists','hype or investment advice — always flag smart contract risks and the need for audits')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Blockchain
+      </button>
+
+    </div>
+
+    <div class="prompt-label" id="prompt-label">Generated skill prompt</div>
+    <div class="prompt-box" id="prompt-out">Select a tech topic above to generate a ready-to-use Claude skill prompt you can paste anywhere.</div>
+    <div class="prompt-actions">
+      <button class="btn btn-primary" onclick="copyPrompt()" id="copy-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy prompt
+      </button>
+      <button class="btn" onclick="downloadPrompt()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .txt
+      </button>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Deploy -->
+  <div class="sec-label">How to deploy your skill</div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        3 ways to deploy
+      </div>
+      <div class="steps">
+        <div class="step"><div class="snum">1</div><div class="stxt"><strong>Claude.ai project</strong> — paste as system prompt, reuse across all chats in that project</div></div>
+        <div class="step"><div class="snum">2</div><div class="stxt"><strong>API system prompt</strong> — power your own tool or app with the Claude API</div></div>
+        <div class="step"><div class="snum">3</div><div class="stxt"><strong>Custom bot / GPT</strong> — wrap in a product and share with your YouTube audience</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 11 21 7 17 3"/><line x1="21" y1="7" x2="9" y2="7"/><polyline points="7 21 3 17 7 13"/><line x1="3" y1="17" x2="15" y2="17"/></svg>
+        Skill upgrades
+      </div>
+      <div class="row"><span class="rk">Add examples</span><span class="rv"><span class="pill p-green">+40% quality</span></span></div>
+      <div class="row"><span class="rk">Chain-of-thought</span><span class="rv"><span class="pill p-green">Better reasoning</span></span></div>
+      <div class="row"><span class="rk">Output schema</span><span class="rv"><span class="pill p-blue">Consistent format</span></span></div>
+      <div class="row"><span class="rk">Few-shot pairs</span><span class="rv"><span class="pill p-blue">Tone control</span></span></div>
+      <div class="row"><span class="rk">Negative examples</span><span class="rv"><span class="pill p-amber">Reduce mistakes</span></span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Testing your skill
+      </div>
+      <div class="row"><span class="rk">Beginner query</span><span class="rv">Check simplicity</span></div>
+      <div class="row"><span class="rk">Expert query</span><span class="rv">Check depth</span></div>
+      <div class="row"><span class="rk">Edge case</span><span class="rv">Check guardrails</span></div>
+      <div class="row"><span class="rk">Wrong topic</span><span class="rv">Check refusal</span></div>
+      <div class="row"><span class="rk">Ambiguous ask</span><span class="rv">Check clarification</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: Template -->
+  <div class="sec-label">Universal skill prompt template</div>
+  <div class="card">
+    <div class="prompt-label">Copy and fill in the brackets</div>
+    <div class="template-box" id="template">You are <span class="highlight">[ROLE]</span>, an expert in <span class="highlight">[DOMAIN]</span>.
+
+Your audience: <span class="highlight">[WHO THEY ARE — skill level, job title]</span>.
+
+When answering:
+- Always provide real examples and code snippets where relevant
+- Always explain the "why", not just the "what"
+- Structure responses as: summary → detail → example → common mistakes
+- Use <span class="highlight">[FORMAT RULES — e.g. bullet trade-offs, code blocks, tables]</span>
+
+Guardrails:
+- Never <span class="highlight">[AVOID 1 — e.g. outdated libraries]</span>
+- Never <span class="highlight">[AVOID 2 — e.g. unverified claims]</span>
+- If outside your domain, say so clearly and suggest where to verify
+
+Tone: clear, practical, and direct. No filler words.</div>
+    <div class="prompt-actions">
+      <button class="btn" onclick="copyTemplate()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy template
+      </button>
+    </div>
+  </div>
+
+  <div class="footer">
+    Claude Skills Cheat Sheet &nbsp;·&nbsp; <strong style="color:var(--accent)">by Microdegree</strong> &nbsp;·&nbsp; Share freely
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  let currentPrompt = '';
+  let currentTopic = '';
+
+  function pick(btn, topic, role, expertise, audience, format, guardrails) {
+    document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    currentTopic = topic;
+
+    const prompt =
+`You are a ${role}, an expert in ${expertise}.
+
+Your audience: ${audience}.
+
+When answering:
+- Always provide real examples and code snippets where relevant
+- Always explain the "why", not just the "what"
+- Structure responses as: summary → detail → example → common mistakes
+- Use ${format}
+
+Guardrails:
+- Never ${guardrails}
+- Never give incomplete or unverified technical claims
+- If outside your domain, say so clearly and suggest where to verify
+
+Tone: clear, practical, and direct. No filler words.`;
+
+    currentPrompt = prompt;
+    document.getElementById('prompt-out').textContent = prompt;
+    document.getElementById('prompt-label').textContent = `Skill prompt — ${topic}`;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  function copyPrompt() {
+    if (!currentPrompt) { showToast('Select a topic first'); return; }
+    navigator.clipboard.writeText(currentPrompt).then(() => showToast('Prompt copied!'));
+  }
+
+  function downloadPrompt() {
+    if (!currentPrompt) { showToast('Select a topic first'); return; }
+    const blob = new Blob([currentPrompt], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `claude-skill-${currentTopic.toLowerCase().replace(/\s+/g,'-')}.txt`;
+    a.click();
+    showToast('Downloaded!');
+  }
+
+  function copyTemplate() {
+    const raw = `You are [ROLE], an expert in [DOMAIN].
+
+Your audience: [WHO THEY ARE — skill level, job title].
+
+When answering:
+- Always provide real examples and code snippets where relevant
+- Always explain the "why", not just the "what"
+- Structure responses as: summary → detail → example → common mistakes
+- Use [FORMAT RULES — e.g. bullet trade-offs, code blocks, tables]
+
+Guardrails:
+- Never [AVOID 1 — e.g. outdated libraries]
+- Never [AVOID 2 — e.g. unverified claims]
+- If outside your domain, say so clearly and suggest where to verify
+
+Tone: clear, practical, and direct. No filler words.`;
+    navigator.clipboard.writeText(raw).then(() => showToast('Template copied!'));
+  }
+</script>
+</body>
+</html>
